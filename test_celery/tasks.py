@@ -30,3 +30,23 @@ def download(url, filename):
 def list():
     """ Return an array of all downloaded files """
     return os.listdir(BASEDIR)
+
+
+@app.task
+def fib_yield(n):
+    a, b = 0, 1
+    while n > 0:
+        yield b
+        a, b = b, a + b
+        n -= 1
+
+
+@app.task
+def fib_recursion(n):
+    """ 故意让时间很长很长"""
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fib_recursion(n - 1) + fib_recursion(n - 2)
