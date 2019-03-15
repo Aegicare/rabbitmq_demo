@@ -26,6 +26,7 @@ class AegisRpcClient(object):
                                    properties=pika.BasicProperties(
                                        reply_to=self.callback_queue,
                                        correlation_id=self.corr_id,
+                                       delivery_mode=2,  # make message persistent
                                    ),
                                    body=str(n))
         while self.response is None:
@@ -36,11 +37,12 @@ class AegisRpcClient(object):
 def handle_weaver_result(response):
     # result success or fail
     print(" [.] Got result %r" % response)
+    # handle result
 
 
 print(" [x] Requesting Sample vcf analysis result")
 aegis_rpc = AegisRpcClient()
-# sample_no = 'AS-err'
-sample_no = 'AS-suc'
+# sample_no = 'AS3000-err'
+sample_no = 'AS1000-suc'
 response = aegis_rpc.call(sample_no)
 handle_weaver_result(response)
