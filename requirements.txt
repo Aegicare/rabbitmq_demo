@@ -1,2 +1,3 @@
 pika==0.13.1
 aio-pika==5.4.0
+celery==4.2.1
