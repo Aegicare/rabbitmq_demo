@@ -14,8 +14,8 @@ def do_list():
     print(r.get(timeout=1))
 
 
-def do_fib():
-    result = fib_recursion.delay(30)
+def do_fib(n=30):
+    result = fib_recursion.delay(n)
     return result
 
 
