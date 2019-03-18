@@ -25,7 +25,7 @@ SECRET_KEY = '!d_i5jz%^bp5y7#r$ck8%dpvcz&^f_8+i&b^m3hj#5^v8lyv=3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 BROKER_URL = 'amqp://guest:guest@localhost//'
 CELERY_ACCEPT_CONTENT = ['json']

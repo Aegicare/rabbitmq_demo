@@ -1,11 +1,9 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    # Examples:
-    # url(r'^$', 'celery_try.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
+    url(r'^$', RedirectView.as_view(pattern_name='index')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^index/', include('testapp.urls')),
 ]

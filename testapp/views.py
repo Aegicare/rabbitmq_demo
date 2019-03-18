@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from .forms import UserForm
+from .forms import SubmitForm
 from .tasks import fib_list
 from celery.result import AsyncResult
 import json
@@ -38,7 +38,7 @@ def index(request):
         job = fib_list.delay(int(n))
         return HttpResponseRedirect(reverse('index') + '?job=' + job.id)
     else:
-        form = UserForm()
+        form = SubmitForm()
         context = {
             'form': form,
         }
