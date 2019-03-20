@@ -45,6 +45,7 @@
                     csrfmiddlewaretoken: "{{ csrf_token }}",
                 },
                 success: function (result) {
+                    console.log(result);
                     if (result.process_percent === null || result.process_percent === undefined) {
                         willstop = 1;
                         jQuery('.bar').css({'width': 100 + '%'});
@@ -68,7 +69,7 @@
             if (willstop === 1) {
                 clearInterval(refreshIntervalId);
             }
-        }, 5000);
+        }, 1000);
     })();
 </script>
 </body>

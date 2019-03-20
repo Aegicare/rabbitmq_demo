@@ -16,6 +16,7 @@ def poll_state(request):
             task_id = request.POST['task_id']
             task = AsyncResult(task_id)
             data = task.result or task.state
+            print(data)
         else:
             data = 'No task_id in the request'
     else:
@@ -23,7 +24,7 @@ def poll_state(request):
 
     # avoid error crash
     json_data = {}
-    if isinstance(data, str):  # expired error
+    if isinstance(data, str) or isinstance(data, list) or isinstance(data, dict):  # expired error
         if data == PENDING:
             json_data = json.dumps(dict(process_percent=0, state=PENDING))
         else:

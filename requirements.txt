@@ -4,3 +4,4 @@ celery==4.2.1
 django==1.11.20
 librabbitmq==2.0.0
 redis==3.2.1
+flower==0.9.3

@@ -5,11 +5,15 @@ Usage::
 from __future__ import absolute_import, unicode_literals
 from celery import Celery, current_task
 
-app = Celery('weaver_worker')
-app.config_from_object('settings')
-app.conf.update(
-    result_expires=3600,
-)
+
+def create_app(config):
+    """Create a celery app instance."""
+    celery_app = Celery("weaver_worker")
+    celery_app.config_from_object(config)
+    return celery_app
+
+
+app = create_app('settings')
 
 
 @app.task
