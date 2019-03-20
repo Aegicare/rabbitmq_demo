@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from celery_try import celery_app
 from testapp import tasks
 from .forms import SubmitForm
 from celery.result import AsyncResult
@@ -39,7 +40,9 @@ def index(request):
         return render(request, "show_t.html", context)
     elif 'n' in request.GET:
         n = request.GET['n']
-        job = tasks.fib_list.apply_async((int(n),), countdown=1, expires=3600)
+        # job = tasks.fib_list.apply_async((int(n),), expires=3600, queue='aegis_queue')
+        # send tasks to remote worker
+        job = celery_app.send_task('weaver_analysis', args=(int(n),), expires=3600, queue='aegis_queue')
         return HttpResponseRedirect(reverse('index') + '?job=' + job.id)
     else:
         form = SubmitForm()

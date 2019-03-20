@@ -14,7 +14,7 @@ def do_list():
     print(r.get(timeout=1))
 
 
-def do_fib(n=30):
+def do_fib(n=20):
     result = fib_recursion.delay(n)
     return result
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     print('Task finished? ', result.ready())
     print('Task result: ', result.result)
     # sleep several seconds to ensure the task has been finished
-    time.sleep(30)
+    time.sleep(5)
     # now the task should be finished and ready method will return True
     print('Task finished? ', result.ready())
     print('Task result: {}'.format(result.result))

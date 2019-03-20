@@ -11,7 +11,7 @@ from celery import Celery
 # cd ../; celery -A test_celery worker --app=test_celery.celery_app:app -l info -P=solo;
 app = Celery('test_celery',
              backend='rpc://',
-             broker='amqp://aegis:aegicare123@localhost:5672/myvhost',
+             broker='amqp://aegis:aegicare123@192.168.56.50:5672/aegis_vhost',
              include=['test_celery.tasks'])
 
 
