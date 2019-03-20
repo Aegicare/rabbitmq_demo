@@ -34,7 +34,6 @@
     var willstop = 0;
     (function () {
         var poll = function () {
-            var json_dump = "{{ data }}";
             var task_id = "{{ task_id }}";
 
             console.log(task_id);
@@ -56,6 +55,9 @@
                         jQuery('.bar').css({'width': result.process_percent + '%'});
                         jQuery('.bar').html(result.process_percent + '%');
                         document.getElementById("user-count").textContent = "PROCRESSING";
+                    }
+                    if (result.state) {
+                        document.getElementById("user-count").textContent = result.state;
                     }
                 }
             });

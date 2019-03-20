@@ -1,5 +1,6 @@
 pika==0.13.1
 aio-pika==5.4.0
-celery==3.1.25
+celery==4.2.1
 django==1.11.20
 librabbitmq==2.0.0
+redis==3.2.1

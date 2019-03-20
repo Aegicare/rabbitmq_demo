@@ -52,6 +52,9 @@ CELERY_TASK_RESULT_EXPIRES = None  # Default: Expire after 1 day.
 
 # result backbend
 CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_RESULT_PERSISTENT = True
+# use redis to save result of json format
+# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/4'
 
 CELERYD_PREFETCH_MULTIPLIER = 1
 # CELERYD_MAX_TASKS_PER_CHILD = 1000  # Maximum number of tasks a pool worker process can execute before it’s replaced with a new one. Default is no limit.

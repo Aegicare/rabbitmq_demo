@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from testapp import tasks
 from .forms import SubmitForm
-from .tasks import fib_list
 from celery.result import AsyncResult
 import json
+from celery.states import PENDING
 
 
 def poll_state(request):
@@ -19,23 +20,26 @@ def poll_state(request):
     else:
         data = 'This is not an ajax request'
 
-    json_data = json.dumps(data)
+    # avoid error crash
+    json_data = {}
+    if isinstance(data, str):  # expired error
+        if data == PENDING:
+            json_data = json.dumps(dict(process_percent=0, state=PENDING))
+        else:
+            json_data = json.dumps(data)
     return HttpResponse(json_data, content_type='application/json')
 
 
 def index(request):
     if 'job' in request.GET:
         job_id = request.GET['job']
-        job = AsyncResult(job_id)
-        data = job.result or job.state
         context = {
-            'data': data,
             'task_id': job_id,
         }
         return render(request, "show_t.html", context)
     elif 'n' in request.GET:
         n = request.GET['n']
-        job = fib_list.delay(int(n))
+        job = tasks.fib_list.apply_async((int(n),), countdown=1, expires=3600)
         return HttpResponseRedirect(reverse('index') + '?job=' + job.id)
     else:
         form = SubmitForm()
