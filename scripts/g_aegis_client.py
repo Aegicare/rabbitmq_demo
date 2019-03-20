@@ -17,7 +17,7 @@ class AegisRpcClient(object):
         if self.corr_id == props.correlation_id:
             self.response = body
 
-    def call(self, n):
+    def call(self, data):
         self.response = None
         self.corr_id = str(uuid.uuid4())
 
@@ -28,7 +28,7 @@ class AegisRpcClient(object):
                                        correlation_id=self.corr_id,
                                        delivery_mode=2,  # make message persistent
                                    ),
-                                   body=str(n))
+                                   body=str(data))
         while self.response is None:
             self.connection.process_data_events()
         return self.response
