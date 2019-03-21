@@ -1,6 +1,6 @@
 """weaver_worker.py
 Usage::
-    $ celery -A weaver_worker worker --app=celery_tasks:app --loglevel=INFO --concurrency=5 -n weaver@%h
+    $ celery -A weaver_worker worker --app=celery_tasks:app --loglevel=INFO --concurrency=5 -n weaver@%h -Q aegis_queue
     The hostname argument can expand the following variables:
         %h: Hostname, including domain name.
         %n: Hostname only.

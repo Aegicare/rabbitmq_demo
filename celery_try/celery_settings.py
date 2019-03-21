@@ -1,4 +1,5 @@
 from kombu import Exchange, Queue
+import re
 
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = 'Asia/Shanghai'
@@ -26,11 +27,15 @@ if not BROKER_URL.endswith(BROKER_HEARTBEAT):
     BROKER_URL += BROKER_HEARTBEAT
 
 # configure queues
-# CELERY_QUEUES = {
-#     'celery': {'routing_key': 'celery', },
-#     'default': {'exchange': 'default', 'routing_key': 'default', },
-#     'aegis_queue': {'exchange': 'default', 'routing_key': 'default', },
-# }
+CELERY_ROUTES = {
+    'testapp.tasks.*': {'queue': 'sakya'},
+    # re.compile(r'(testapp|celery_try.)\.tasks\..*'): {'queue': 'default'}
+}
+CELERY_QUEUES = {
+    'celery': {'routing_key': 'celery', },
+    'sakya': {'routing_key': 'sakya', },
+    # 'aegis_queue': {'exchange': 'default', 'routing_key': 'default', },
+}
 # Example:
 # CELERY_QUEUES = (
 #     Queue('celery', Exchange('celery'), routing_key='celery'),
@@ -67,4 +72,3 @@ CELERYD_PREFETCH_MULTIPLIER = 1
 
 # run in background
 # http://docs.celeryproject.org/en/master/getting-started/next-steps.html#in-the-background
-
