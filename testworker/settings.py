@@ -13,7 +13,7 @@ CELERY_RESULT_SERIALIZER = 'json'  # Default: json since 4.0 (earlier: pickle).
 # RABBIT_HOSTNAME = 'localhost'
 # 生产环境密码要配置为环境变量
 RABBIT_HOSTNAME = '192.168.56.50'
-RABBIT_HOSTNAME = 'localhost'
+# RABBIT_HOSTNAME = 'localhost'
 BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}'.format(
     user='aegis',
     password='aegicare123',
@@ -53,7 +53,7 @@ CELERY_TASK_RESULT_EXPIRES = 60 * 60  # Default: Expire after 1 day.
 # CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_RESULT_PERSISTENT = True
 # use redis to save result of json format
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/4'
+CELERY_RESULT_BACKEND = 'redis://192.168.56.1:6379/4'
 
 CELERYD_PREFETCH_MULTIPLIER = 1
 # CELERYD_MAX_TASKS_PER_CHILD = 1000  # Maximum number of tasks a pool worker process can execute before it’s replaced with a new one. Default is no limit.

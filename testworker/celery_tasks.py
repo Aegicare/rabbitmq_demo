@@ -1,6 +1,10 @@
 """weaver_worker.py
 Usage::
-    $ celery -A weaver_worker worker --app=celery_tasks:app  -l info
+    $ celery -A weaver_worker worker --app=celery_tasks:app --loglevel=INFO --concurrency=5 -n weaver@%h
+    The hostname argument can expand the following variables:
+        %h: Hostname, including domain name.
+        %n: Hostname only.
+        %d: Domain name only.
 """
 from __future__ import absolute_import, unicode_literals
 from celery import Celery, current_task

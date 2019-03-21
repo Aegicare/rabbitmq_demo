@@ -28,7 +28,24 @@ def poll_state(request):
         if data == PENDING:
             json_data = json.dumps(dict(process_percent=0, state=PENDING))
         else:
+            # finish analysis process
             json_data = json.dumps(data)
+            # import data
+            # todo add lock same sample task only run once at the same time
+            try:
+                tasks.import_analysis_result.apply_async(
+                    ('/data/clinic/wes/AS8888/AS8888_v1.txt',),
+                    link_error=[tasks.error_handler.s()],
+                    ignore_result=True, retry=True,
+                    retry_policy={
+                        'max_retries': 2,
+                        'interval_start': 0,
+                        'interval_step': 0.2,
+                        'interval_max': 0.2,
+                    }
+                )
+            except tasks.import_analysis_result.OperationalError as exc:
+                print('Sending task raised: %r', exc)  # when the connection cannot be initiated, Connection refused
     return HttpResponse(json_data, content_type='application/json')
 
 

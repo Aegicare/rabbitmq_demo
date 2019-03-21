@@ -13,7 +13,7 @@ CELERY_RESULT_SERIALIZER = 'json'  # Default: json since 4.0 (earlier: pickle).
 # RABBIT_HOSTNAME = 'localhost'
 # 生产环境密码要配置为环境变量
 RABBIT_HOSTNAME = '192.168.56.50'
-RABBIT_HOSTNAME = 'localhost'
+# RABBIT_HOSTNAME = 'localhost'
 BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}'.format(
     user='aegis',
     password='aegicare123',
@@ -26,11 +26,11 @@ if not BROKER_URL.endswith(BROKER_HEARTBEAT):
     BROKER_URL += BROKER_HEARTBEAT
 
 # configure queues
-CELERY_QUEUES = {
-    'celery': {'routing_key': 'celery', },
-    'default': {'exchange': 'default', 'routing_key': 'default', },
-    'aegis_queue': {'exchange': 'default', 'routing_key': 'default', },
-}
+# CELERY_QUEUES = {
+#     'celery': {'routing_key': 'celery', },
+#     'default': {'exchange': 'default', 'routing_key': 'default', },
+#     'aegis_queue': {'exchange': 'default', 'routing_key': 'default', },
+# }
 # Example:
 # CELERY_QUEUES = (
 #     Queue('celery', Exchange('celery'), routing_key='celery'),
