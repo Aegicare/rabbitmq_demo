@@ -33,8 +33,9 @@ def poll_state(request):
             # import data
             # todo add lock same sample task only run once at the same time
             try:
+                file_path = '/data/clinic/wes/AS8888/AS8888_v1.txt'
                 tasks.import_analysis_result.apply_async(
-                    ('/data/clinic/wes/AS8888/AS8888_v1.txt',),
+                    (file_path,),
                     link_error=[tasks.error_handler.s()],
                     ignore_result=True, retry=True,
                     retry_policy={
@@ -50,7 +51,10 @@ def poll_state(request):
 
 
 def revoke_task(request):
-    """ Try to revoke job if not working"""
+    """
+    Try to revoke job if not working
+    @ref: http://docs.celeryproject.org/en/latest/userguide/workers.html#revoke-revoking-tasks
+    """
     if 'task_id' in request.GET and request.GET['task_id']:
         task_id = request.GET['task_id']
         AsyncResult(task_id).revoke()
@@ -70,7 +74,7 @@ def index(request):
         # job = tasks.fib_list.apply_async((int(n),), expires=3600, queue='aegis_queue')
         # send tasks to remote worker
         job = celery_app.send_task('weaver_analysis', args=(int(n),), expires=3600, queue='aegis_queue')
-        return HttpResponseRedirect(reverse('index') + '?job=' + job.id)
+        return HttpResponseRedirect(reverse('task:index') + '?job=' + job.id)
     else:
         form = SubmitForm()
         context = {

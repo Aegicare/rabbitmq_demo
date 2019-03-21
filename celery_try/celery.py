@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import os
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'celery_try.settings')
 
 from django.conf import settings
@@ -14,6 +15,16 @@ app.config_from_object('django.conf:settings')
 
 # For autodiscover_tasks to work, you must define your tasks in a file called 'tasks.py'.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+app.conf.ONCE = {
+    'backend': 'celery_once.backends.Redis',
+    'settings': {
+        'url': 'redis://localhost:6379/0',
+        'default_timeout': 60 * 60,
+        'blocking': False,
+        'blocking_timeout': 1
+    }
+}
 
 
 @app.task(bind=True)
