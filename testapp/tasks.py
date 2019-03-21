@@ -1,3 +1,5 @@
+import time
+
 from celery import shared_task, current_task
 from celery.result import AsyncResult
 
@@ -35,3 +37,5 @@ def error_handler(uuid):
 def import_analysis_result(file_path):
     # simulate impot v1 file to Aegis
     print('Begin import file to Aegis, file path:{}'.format(file_path))
+    time.sleep(10)
+    print('Finish')

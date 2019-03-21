@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from celery_try import celery_app
 from testapp import tasks
@@ -47,6 +47,15 @@ def poll_state(request):
             except tasks.import_analysis_result.OperationalError as exc:
                 print('Sending task raised: %r', exc)  # when the connection cannot be initiated, Connection refused
     return HttpResponse(json_data, content_type='application/json')
+
+
+def revoke_task(request):
+    """ Try to revoke job if not working"""
+    if 'task_id' in request.GET and request.GET['task_id']:
+        task_id = request.GET['task_id']
+        AsyncResult(task_id).revoke()
+        return JsonResponse(data=dict(result='success'))
+    return JsonResponse(data=dict(result='method error'))
 
 
 def index(request):
